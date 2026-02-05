@@ -1,0 +1,6 @@
+.gradle
+build
+.env
+.gitignore
+.dockerignore
+Dockerfile

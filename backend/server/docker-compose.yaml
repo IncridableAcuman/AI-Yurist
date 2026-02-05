@@ -1,0 +1,31 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MONGODB_URI: ${}
+      MONGODB_USER: ${}
+      MONGODB_PASSWORD: ${}
+    volumes:
+      - mongo_data:/db/data
+
+  redis:
+    image: redis:7
+    container_name: redis
+    restart: always
+
+  server:
+    build: .
+    container_name: server
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+      - redis
+
+volumes:
+  mongo_data: {}
