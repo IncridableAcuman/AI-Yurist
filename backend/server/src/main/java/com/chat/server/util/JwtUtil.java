@@ -62,7 +62,7 @@ public class JwtUtil {
     }
     public boolean validateToken(String token){
         try {
-            return extractExpiration(token).after(new Date()) && extractSubject(token) == null;
+            return extractExpiration(token).after(new Date());
         } catch (Exception e) {
             return false;
         }

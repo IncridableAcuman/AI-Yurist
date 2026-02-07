@@ -9,6 +9,7 @@ import com.chat.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,15 +17,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void saveUser(User user){
-        userRepository.save(user);
+    public User saveUser(User user){
+        return userRepository.save(user);
     }
 
     public User findByEmail(String email){
         return userRepository.findByEmail(email).orElseThrow(()->new NotFoundException("User not found!"));
     }
 
-    public void create(RegisterRequest request){
+    @Transactional
+    public User create(RegisterRequest request){
         if (userRepository.findByEmail(request.getEmail()).isPresent()){
             throw new BadRequestException("User already exist!");
         }
@@ -35,9 +37,10 @@ public class UserService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
-        saveUser(user);
+        return saveUser(user);
     }
 
+    @Transactional
     public void updatePassword(String password,User user){
         user.setPassword(passwordEncoder.encode(password));
         saveUser(user);

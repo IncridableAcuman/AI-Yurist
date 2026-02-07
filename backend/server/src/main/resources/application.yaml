@@ -18,13 +18,16 @@ spring:
     username: ${SMTP_USER}
     password: ${SMTP_PASS}
     properties:
-      mail:
-        SMTP:
-          enable: true
-          STARTTLS:
-            auth: true
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
 
 jwt:
   secret: ${JWT_SECRET}
   access_time: ${JWT_ACCESS_TIME}
   refresh_time: ${JWT_REFRESH_TIME}
+
+groq:
+  ai:
+    key: ${AI_KEY}
+    url: ${URL}

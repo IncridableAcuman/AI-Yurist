@@ -19,4 +19,13 @@ public class CookieUtil {
         cookie.setPath("/");
         response.addCookie(cookie);
     }
+    public void clearCookie(HttpServletResponse response){
+        Cookie cookie = new Cookie("refreshToken",null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+        cookie.setValue(null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
 }
